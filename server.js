@@ -1,3 +1,4 @@
+import path from "path";
 import express from "express";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
@@ -9,12 +10,15 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 const OPENAI_KEY = process.env.OPENAI_API_KEY;
 
-// Basic health check
-app.get("/", (req, res) => {
+// Serve static files (your index.html, css, js)
+app.use(express.static(path.resolve()));
+
+// Health check endpoint
+app.get("/health", (req, res) => {
   res.send("✅ SolidAI is running and ready for chat requests.");
 });
 
-// Real AI chat endpoint
+// Chat API endpoint
 app.post("/chat", async (req, res) => {
   try {
     const { message } = req.body;
@@ -38,7 +42,6 @@ app.post("/chat", async (req, res) => {
     const data = await response.json();
     const aiMessage = data.choices?.[0]?.message?.content || "No response from AI.";
     res.json({ reply: aiMessage });
-
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Failed to process request." });
