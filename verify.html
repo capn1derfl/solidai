@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SolidAI Feed</title>
+</head>
+<body>
+<h1>SolidAI HCS Feed</h1>
+<pre id="feed">Feed will appear here...</pre>
+<script>
+async function loadFeed() {
+  const res = await fetch("/feed"); 
+  const data = await res.text();
+  document.getElementById("feed").innerText = data;
+}
+setInterval(loadFeed, 3000);
+loadFeed();
+</script>
+</body>
+</html>

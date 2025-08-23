@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SolidAI</title>
+<style>
+body { font-family: sans-serif; background: #111; color: #eee; text-align: center; }
+input, button { padding: 10px; margin: 5px; font-size: 16px; }
+#answer { margin-top: 20px; font-weight: bold; }
+</style>
+</head>
+<body>
+<h1>Ask SolidAI</h1>
+<input id="question" placeholder="Type your question..." size="40">
+<button onclick="ask()">Ask</button>
+<div id="answer"></div>
+<script>
+async function ask() {
+  const q = document.getElementById("question").value;
+  const res = await fetch("/ask", { method: "POST", headers: { 'Content-Type':'application/json' }, body: JSON.stringify({ question: q }) });
+  const data = await res.json();
+  document.getElementById("answer").innerText = data.answer;
+}
+</script>
+</body>
+</html>
